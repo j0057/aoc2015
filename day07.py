@@ -65,4 +65,4 @@ def test_7a_answer(circuit, day07_lines):
 
 def test_7b_answer(circuit, day07_lines):
     circuit.execute(day07_lines + ['46065 -> b'])
-    assert circuit['a'] == None
+    assert circuit['a'] == 14134
