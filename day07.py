@@ -27,7 +27,7 @@ class WireCircuit(object):
                 match = re.match(regex, line)
                 if not match:
                     continue
-                args = [ int(v) if v.isnumeric() else v for v in match.groups() ]
+                args = [ int(v) if v.isdigit() else v for v in match.groups() ]
                 self.wires[args[-1]] = (lambda op, a: lambda: op(*a))(operation, args[:-1])
                 break
             else:
