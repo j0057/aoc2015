@@ -71,7 +71,7 @@ int count_lines(char *s) {
     return r;
 }
 
-int read_lines_2(char *path, char ***lines, int *count) {
+int read_lines(char *path, char ***lines) {
     // read data into buffer
     char *data = NULL;
     if (read_file(path, &data)) {
@@ -80,7 +80,7 @@ int read_lines_2(char *path, char ***lines, int *count) {
 
     // resize buffer big enough for list of pointers as well the data
     int nlines = count_lines(data);
-    int szdata = strlen(data);
+    int szdata = strlen(data) + 1;
     int szptrs = (nlines + 1) * sizeof(char *);
     void *new_buf = realloc(data, szptrs + szdata);
     if (new_buf == NULL) {
@@ -110,37 +110,5 @@ int read_lines_2(char *path, char ***lines, int *count) {
 
     // return result
     *lines = (char **)new_buf;
-    *count = nlines;
-    return 0;
-}
-
-int read_lines(char *path, char ***lines, int *count) {
-    char *data = NULL;
-    if (read_file(path, &data)) {
-        return 1;
-    }
-
-    char *line_ptr = NULL;
-    for (char *line = strtok_r(data, "\n", &line_ptr); line != NULL; line = strtok_r(NULL, "\n", &line_ptr)) {
-    
-        // resize array
-        char **new_buf = *lines;
-        if (!(new_buf = realloc(new_buf, sizeof(char *) * (*count + 1)))) {
-            error(0, errno, "error reallocating array");
-            return 1;
-        }
-        *lines = new_buf;
-    
-        // duplicate string
-        char *str = strdup(line);
-        if (!str) {
-            error(0, errno, "error allocating string");
-            return 1;
-        }
-    
-        *(*lines + (*count)++) = str;
-    }
-    
-    free(data);
     return 0;
 }

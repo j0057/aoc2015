@@ -12,5 +12,4 @@
 
 int read_file(char *path, char **buf);
 
-int read_lines(char *path, char ***lines, int *count);
-int read_lines_2(char *path, char ***lines, int *count);
+int read_lines(char *path, char ***lines);

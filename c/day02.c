@@ -29,11 +29,11 @@ int calc_ribbon(int l, int w, int h) {
     return min(2 * l + 2 * w, min(2 * w + 2 * h, 2 * h + 2 * l))  +  w * h * l;
 }
 
-int sum_by(char *lines[], int count, calc_func_t calc){
+int sum_by(char **lines, calc_func_t calc){
     int sum = 0;
-    for (int i = 0; i < count; i++) {
+    for (char **line = lines; *line != NULL; line++) {
         int l, w, h;
-        if (parse_line(lines[i], &l, &w, &h)) {
+        if (parse_line(*line, &l, &w, &h)) {
             return 1;
         }
         sum += (*calc)(l, w, h);
@@ -49,17 +49,13 @@ int main(int argc, char *argv[]) {
     assert(calc_ribbon(2, 3, 4)  == 34);
     assert(calc_ribbon(1, 1, 10) == 14);
 
-    int count = 0;
-    char **lines = NULL;
-    if (read_lines("../input/day02.txt", &lines, &count)) {
+    char **day03 = NULL;
+    if (read_lines("../input/day02.txt", &day03)) {
         return 1;
     }
 
-    ANSWER(2, "a", sum_by(lines, count, &calc_paper),  1598415);
-    ANSWER(2, "b", sum_by(lines, count, &calc_ribbon), 3812909);
+    ANSWER(2, "a", sum_by(day03, &calc_paper),  1598415);
+    ANSWER(2, "b", sum_by(day03, &calc_ribbon), 3812909);
 
-    for (int i = 0; i < count; i++) {
-        free(lines[i]);
-    }
-    free(lines);
+    free(day03);
 }

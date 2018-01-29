@@ -34,17 +34,13 @@ int main(int argc, char *argv[]) {
     assert(mine_coin("pqrstuv", 5) == 1048970);
 
     char **day04 = NULL;
-    int count;
-    if (read_lines("../input/day04.txt", &day04, &count)) {
+    if (read_lines("../input/day04.txt", &day04)) {
         return 1;
     }
 
     ANSWER(4, "a", mine_coin(day04[0], 5), 254575);
     ANSWER(4, "b", mine_coin(day04[0], 6), 1038736);
 
-    for (int i = 0; i < count; i++) {
-        free(day04[i]);
-    }
     free(day04);
     return 0;
 }
