@@ -56,5 +56,6 @@ int main(int argc, char *argv[]) {
     ANSWER(3, "a", count_houses(256, day03, 1), 2565);
     ANSWER(3, "b", count_houses(256, day03, 2), 2639);
 
+    free(day03);
     return 0;
 }
