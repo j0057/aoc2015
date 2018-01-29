@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 import os
 import re
 
@@ -6,20 +6,31 @@ import requests
 
 import pytest
 
+YEAR = 2015
+
+def match_groups(regex, string):
+    match = re.match(regex, string)
+    if not match:
+        raise ValueError('Regex did not match: {0!r}'.format(string))
+    return match.groups()
+
+re.match_groups = match_groups # shameless duck punching, but will save me 4 lines of code every day
+
 def get_cookie():
     with open('.cookie', 'r') as f:
         return f.read().strip()
 
 def get_input(day):
-    response = requests.get('https://adventofcode.com/2015/day/{0}/input'.format(day), cookies={'session': get_cookie()})
+    response = requests.get('https://adventofcode.com/{0}/day/{1}/input'.format(YEAR, day), cookies={'session': get_cookie()})
     response.raise_for_status()
     return response
 
 def download_inputs():
     if not os.path.isdir('input'):
         os.mkdir('input')
-    today = min(25, (date.today() - date(2015, 11, 30)).days)
-    for day in range(1, today + 1):
+    early = datetime.datetime.now().hour >= 6
+    today = min(25, (datetime.date.today() - datetime.date(YEAR, 11, 30)).days)
+    for day in range(1, today + early):
         filename = 'input/day{0:02d}.txt'.format(day)
         if os.path.exists(filename):
             continue
@@ -43,6 +54,11 @@ def gen_fixture(filename):
             return [ line.strip() for line in f ]
 
     @pytest.fixture
+    def numbers():
+        with open('input/' + filename, 'r') as f:
+            return [ int(line.strip()) for line in f ]
+
+    @pytest.fixture
     def number():
         with open('input/' + filename, 'r') as f:
             return int(f.read().strip())
@@ -60,6 +76,7 @@ def gen_fixture(filename):
     return { 
         match.groups()[0]: content,
         match.groups()[0] + '_lines': lines,
+        match.groups()[0] + '_numbers': numbers,
         match.groups()[0] + '_number': number,
         match.groups()[0] + '_grid': grid,
         match.groups()[0] + '_number_grid': number_grid
