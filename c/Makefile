@@ -43,3 +43,5 @@ day04: day04.o util.o
 
 day05: LDLIBS = -lpcre
 day05: day05.o util.o
+
+day06: day06.o util.o
