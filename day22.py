@@ -95,4 +95,4 @@ def test_22a_ex2():
     assert state.player_cast == 229+113+73+173+53
 
 def test_22a(day22_grid): assert day22a(50, 500, *parse(day22_grid)) == 900
-def test_22b(day22_grid): assert day22b(49, 500, *parse(day22_grid)) == -529
+def test_22b(day22_grid): assert day22b(49, 500, *parse(day22_grid)) == 1216
