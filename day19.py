@@ -1,44 +1,43 @@
+import re
 from functools import reduce
 from itertools import groupby
 
 def parse(lines):
-    return ({ k: [v[2] for v in vs] for (k, vs) in groupby((line.split() for line in lines[:-2]), lambda t: t[0]) },
-            lines[-1])
+    return ({m[1][::-1]: m[0][::-1] for m in (re.match_groups(r'(\w+) => (\w+)', line) for line in lines[:-2])},
+            lines[-1][::-1])
 
-def indices(s, k):
-    i = -len(k)
-    while True:
-        i = s.find(k, i+len(k))
-        if i == -1:
-            break
-        yield i
+def replace_all(s, src, tgt):
+    s = s.split(src)
+    return [src.join(s[:i]) + tgt + src.join(s[i:]) for i in range(1, len(s))]
 
-def molecules(r, m):
-    return {m[:i] + m[i:].replace(k, v, 1)
-            for (k, vs) in r.items()
-            for i in indices(m, k)
-            for v in vs}
+def day19a(rules, molecule):
+    return {rep for (tgt, src) in rules.items()
+                for rep in replace_all(molecule[::-1], src, tgt)}
 
-def reactions(f, r, m, c=0):
-    if f == m:
-        return c
-    elif len(f) > len(m):
-        return 0xffffffff
+def day19b(end, rules, molecule):
+    #import pudb ; pudb.set_trace()
+    #print(molecule)
+    if end == molecule:
+        return 0
     else:
-        return reduce(min, (reactions(f2, r, m, 1+c) for f2 in molecules(r, f)))
+        predecessor = re.sub('|'.join(sorted(rules, key=len, reverse=1)), lambda m: rules[m.group()], molecule, count=1)
+        if molecule == predecessor:
+            import pudb ; pudb.set_trace()
+            raise Exception(f"Could not find predecessor for {molecule!r}")
+        return 1 + day19b(end, rules, predecessor)
 
-def test_19a_ex1(): assert len(molecules(*parse(['H => HO', 'H => OH', 'O => HH', '', 'HOH']))) == 4
-def test_19a_ex2(): assert len(molecules(*parse(['H => HO', 'H => OH', 'O => HH', '', 'HOHOHO']))) == 7
+def test_19_replace1(): assert [*replace_all('fooXbarXspam', 'X', '_')] == ['foo_barXspam', 'fooXbar_spam']
+def test_19_replace2(): assert [*replace_all('XfoobarXspam', 'X', '_')] == ['_foobarXspam', 'Xfoobar_spam']
+def test_19_replace3(): assert [*replace_all('fooXbarspamX', 'X', '_')] == ['foo_barspamX', 'fooXbarspam_']
 
-def test_19b_ex1(): assert reactions('e', *parse(['e => H', 'e => O', 'H => HO', 'H => OH', 'O => HH', '', 'HOH'])) == 3
-def test_19b_ex2(): assert reactions('e', *parse(['e => H', 'e => O', 'H => HO', 'H => OH', 'O => HH', '', 'HOHOHO'])) == 6
+EX19A = ['H => HO', 'H => OH', 'O => HH', '']
+EX19B = ['e => H', 'e => O', 'H => HO', 'H => OH', 'O => HH', '']
 
-def test_19a_answer(day19_lines): assert len(molecules(*parse(day19_lines))) == 518
+def test_19a_ex1(): assert len(day19a(*parse(EX19A+['HOH'])))    == 4
+def test_19a_ex2(): assert len(day19a(*parse(EX19A+['HOHOHO']))) == 7
 
-def _est_19b_answer(day19_lines): assert reactions('e', *parse(day19_lines)) == -13
+#def test_19b_ex1(): assert reactions('e', *parse(EX19B+['HOH']))    == 3
+#def test_19b_ex2(): assert reactions('e', *parse(EX19B+['HOHOHO'])) == 6
 
-def test_19b_answer(day19_lines):
-    c = len(day19_lines)
-    ar_cr = sum('Ar' in line and 'Cr' in line for line in day19_lines)
-    y = sum('Y' in line for line in day19_lines)
-    assert c - ar_cr - 2**y - 1 == -13
+#def test_19a(day19_lines): assert len(day19a(*parse(day19_lines))) == 518
+def test_19b(day19_lines): assert day19b('e', *parse(day19_lines)) == 200
