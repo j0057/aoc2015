@@ -36,5 +36,5 @@ def test_11a_ex3(): assert not is_ok('abbcegjk')
 def test_11a_ex4(): assert get_next('abcdefgh') == 'abcdffaa'
 def test_11a_ex5(): assert get_next('ghijklmn') == 'ghjaabcc'
 
-def test_11a_answer(day11): assert get_next(day11) == 'cqjxxyzz'
-def test_11b_answer(day11): assert get_next('cqjxxyzz') == 'cqkaabcc'
+def test_11a_answer(day11_text): assert get_next(day11_text) == 'cqjxxyzz'
+def test_11b_answer(day11_text): assert get_next('cqjxxyzz') == 'cqkaabcc'

@@ -2,7 +2,7 @@ import re
 
 def parse(aunt_sues):
     return { int(aunt): { k: int(v) for (k, v) in [ prop.split(': ') for prop in props.split(', ') ] }
-             for (aunt, props) in [ re.match_groups(r'^Sue (\d+): (.*)$', aunt_sue) for aunt_sue in aunt_sues ] }
+             for (aunt, props) in [ re.match(r'^Sue (\d+): (.*)$', aunt_sue).groups() for aunt_sue in aunt_sues ] }
 
 def find_sue(data, aunt_sue_props):
     for (aunt, props) in aunt_sue_props.items():

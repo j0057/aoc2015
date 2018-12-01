@@ -30,5 +30,5 @@ def test_12a_ex4a(): assert json_sum('{}') == 0
 
 def test_12b_ex2(): assert json_sum_no_red('[1,{"c":"red","b":2},3]') == 4
 
-def test_12a_answer(day12): assert json_sum(day12) == 156366
-def test_12b_answer(day12): assert json_sum_no_red(day12) == 96852
+def test_12a_answer(day12_text): assert json_sum(day12_text) == 156366
+def test_12b_answer(day12_text): assert json_sum_no_red(day12_text) == 96852

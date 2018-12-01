@@ -11,5 +11,5 @@ def mine_advent_coin(key, difficulty):
 def test_4a_ex1(): assert mine_advent_coin('abcdef', 5) == 609043
 def test_4a_ex2(): assert mine_advent_coin('pqrstuv', 5) == 1048970
 
-def test_4a_answer(day04): assert mine_advent_coin(day04, 5) == 254575
-def test_4b_answer(day04): assert mine_advent_coin(day04, 6) == 1038736
+def test_4a_answer(day04_text): assert mine_advent_coin(day04_text, 5) == 254575
+def test_4b_answer(day04_text): assert mine_advent_coin(day04_text, 6) == 1038736

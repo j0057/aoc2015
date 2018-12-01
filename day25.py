@@ -15,4 +15,4 @@ def test_25_ex1d(): assert N(1, 6) == 21
 def test_25_ex2a(): assert f(1, 1) == 20151125
 def test_25_ex2b(): assert f(6, 6) == 27995004
 
-def test_25(day25): assert f(*p(day25)) == 9132360
+def test_25(day25_text): assert f(*p(day25_text)) == 9132360

@@ -3,7 +3,7 @@ from functools import reduce
 from itertools import groupby
 
 def parse(lines):
-    return ({m[1][::-1]: m[0][::-1] for m in (re.match_groups(r'(\w+) => (\w+)', line) for line in lines[:-2])},
+    return ({m[1][::-1]: m[0][::-1] for m in (re.match(r'(\w+) => (\w+)', line).groups() for line in lines[:-2])},
             lines[-1][::-1])
 
 def replace_all(s, src, tgt):

@@ -25,5 +25,5 @@ def test_1a_ex5b(): assert find_floor(')())())') == -3
 def test_1a_ex1(): assert find_basement(')') == 1
 def test_1a_ex2(): assert find_basement('()())') == 5
 
-def test_1a_answer(day01): assert find_floor(day01) == 232
-def test_1b_answer(day01): assert find_basement(day01) == 1783
+def test_1a_answer(day01_text): assert find_floor(day01_text) == 232
+def test_1b_answer(day01_text): assert find_basement(day01_text) == 1783

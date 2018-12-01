@@ -4,7 +4,7 @@ import re
 def parse(lines):
     return [(op, r, int(o or '0'))
             for (op, r, o)
-            in [re.match_groups(r'^(\w+)(?: (\w),?)?(?: ([+-]\d+))?$', i) for i in lines]]
+            in [re.match(r'^(\w+)(?: (\w),?)?(?: ([+-]\d+))?$', i).groups() for i in lines]]
 
 def day23(code, **init):
     reg = defaultdict(int, **init)

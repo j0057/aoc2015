@@ -21,5 +21,5 @@ def test_10_ex3(): assert look_and_say('21') == '1211'
 def test_10_ex4(): assert look_and_say('1211') == '111221'
 def test_10_ex5(): assert look_and_say('111221') == '312211'
 
-def test_10_answer(day10): assert look_and_say_a_lot(day10, 40) == 329356
-def test_10_answer(day10): assert look_and_say_a_lot(day10, 50) == 4666278
+def test_10_answer(day10_text): assert look_and_say_a_lot(day10_text, 40) == 329356
+def test_10_answer(day10_text): assert look_and_say_a_lot(day10_text, 50) == 4666278

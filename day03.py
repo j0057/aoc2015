@@ -27,5 +27,5 @@ def test_3b_ex1(): assert count_houses_with_robot('^v') == 3
 def test_3b_ex2(): assert count_houses_with_robot('^>v<') == 3
 def test_3b_ex3(): assert count_houses_with_robot('^v^v^v^v^v') == 11
 
-def test_3a_answer(day03): assert count_houses(day03) == 2565
-def test_3b_answer(day03): assert count_houses_with_robot(day03) == 2639
+def test_3a_answer(day03_text): assert count_houses(day03_text) == 2565
+def test_3b_answer(day03_text): assert count_houses_with_robot(day03_text) == 2639
